@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ACC Tennis Wire</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +108,8 @@
   @media (max-width: 480px) { h1 { font-size: 36px; } }
 </style>
 
+</head>
+<body>
 <div class="wrap">
   <header>
     <div class="eyebrow">College tennis · ACC first</div>
@@ -128,7 +135,7 @@
     <div id="nat"></div>
   </section>
 
-  <footer>Refreshed each morning from school athletics sites, the ITA and college tennis press. Tap a headline to read the full story at its source; video and photo links open on the source site. Stories older than 30 days drop off.</footer>
+  <footer>Refreshed each morning from school athletics sites, the ITA and college tennis press. Tap a headline to read the full story at its source; video and photo links open on the source site. This file is a snapshot; the live page at claude.ai updates every morning.</footer>
 </div>
 
 <script>
@@ -214,16 +221,11 @@
 
   render();
 
-  window.claude && window.claude.use && window.claude.use("db").then(function (db) {
-    if (!db) { document.getElementById("stamp").textContent = "The news feed could not load in this view. Try opening the page in claude.ai."; return; }
-    db.collection("stories").orderBy("date", "desc").limit(300).onSnapshot(function (snap) {
-      state.stories = snap.docs.map(function (d) { return d.data(); });
-      render();
-    }, function () { document.getElementById("stamp").textContent = "The news feed stopped updating. Reload the page to reconnect."; });
-    db.doc("meta/status").onSnapshot(function (snap) {
-      state.meta = snap.exists ? snap.data() : null;
-      render();
-    }, function () {});
-  });
+  state.stories = [{"acc": true, "date": "2026-09-27", "gender": "women", "headline": "Rolls and Genis Salas win ITA All-American consolation doubles title", "kind": "Result", "source": "VirginiaSports.com", "summary": "Virginia's Katie Rolls and Martina Genis Salas beat an Ohio State pair 6-4, 4-6, 10-4 after winning two earlier matches in match tiebreakers. The title earns them a spot at the NCAA Doubles Championship in November.", "teams": ["Virginia"], "url": "https://virginiasports.com/news/2026/09/27/092126-ita-all-american"}, {"acc": true, "big": true, "date": "2026-09-27", "gender": "men", "headline": "Virginia's Keegan Rice runner-up in Tulsa, qualifies for NCAA Singles Championship", "kind": "Result", "source": "VirginiaSports.com", "summary": "The No. 2 seed won five straight-set matches to reach the ITA All-American final, then lost 6-3, 6-1 to TCU's Roger Pascual. The runner-up finish earns him an NCAA singles invitation.", "teams": ["Virginia"], "url": "https://virginiasports.com/news/2026/09/27/092126-ita-all-american-2"}, {"acc": true, "date": "2026-09-08", "gender": "men", "headline": "Duke men's tennis announces fall schedule", "kind": "Schedule", "source": "GoDuke.com", "summary": "The fall opened at the Orange & Blue Classic in Charlottesville and includes the Wake Invite in Winston-Salem, Oct. 23-25.", "teams": ["Duke"], "url": "https://goduke.com/news/2026/9/8/mens-tennis-announces-fall-schedule"}, {"acc": false, "big": true, "date": "2026-09-28", "gender": "both", "headline": "Luciana Perry and Roger Pascual Ferra claim ITA All-American singles titles", "kind": "Result", "source": "ITA (wearecollegetennis.com)", "summary": "Ohio State's Perry won the women's title in Cary over Duke's Mimi Xu; TCU's Pascual took the men's title in Tulsa over Virginia's Keegan Rice — the first national singles title in TCU history.", "teams": ["Ohio State", "TCU"], "url": "https://wearecollegetennis.com/2026/09/28/luciana-perry-roger-pascual-ferra-claim-ita-all-american-titles/"}, {"acc": true, "big": true, "date": "2026-09-27", "gender": "women", "headline": "Duke freshman Mimi Xu finishes runner-up at ITA All-American; three Blue Devils earn NCAA singles invites", "kind": "Result", "source": "GoDuke.com", "summary": "Xu reached the singles final in her college debut — the first freshman finalist since 2021 — before falling 6-2, 6-1 to Ohio State's Luciana Perry. Three Duke players earned bids to the NCAA Singles Championship.", "teams": ["Duke"], "url": "https://goduke.com/news/2026/9/27/womens-tennis-xu-finishes-runner-up-at-ita-all-american-three-blue-devils-earn-ncaa-singles-invites"}, {"acc": true, "date": "2026-09-17", "gender": "men", "headline": "Stanford opens fall at ITA All-American Championships", "kind": "Preview", "source": "GoStanford.com", "summary": "Alex Razeghi and Hudson Rivera were set for the main draw in Tulsa, with Ronit Karki starting in pre-qualifying.", "teams": ["Stanford"], "url": "https://gostanford.com/news/2026/09/17/fall-tennis-begins-at-ita-all-american-championships"}, {"acc": true, "big": true, "date": "2026-09-27", "gender": "women", "headline": "Maltby & Zampardo crowned ITA All-American doubles champions", "kind": "Result", "source": "GoHeels.com", "summary": "UNC's Susanna Maltby and Maddy Zampardo beat Ohio State's No. 3 pair 6-0, 6-1 in the final in Cary — only the second All-American doubles title in Carolina history. They had already locked up a spot in the NCAA Doubles Championship.", "teams": ["North Carolina"], "url": "https://goheels.com/news/2026/9/27/womens-tennis-maltby-zampardo-crowned-ita-all-american-doubles-champions"}, {"acc": true, "date": "2026-09-22", "gender": "men", "headline": "Duke men wrap up ITA All-American qualifying with three singles wins", "kind": "Result", "source": "GoDuke.com", "summary": "Dylan Long, Saahith Jayaraman and Yannick Alexandrescou each won a qualifying match in Tulsa. Duke plays next at the Battle of the Bay in San Francisco, Oct. 1-4.", "teams": ["Duke"], "url": "https://goduke.com/news/2026/9/22/mens-tennis-duke-concludes-ita-all-american-championships"}, {"acc": false, "date": "2026-09-26", "gender": "women", "headline": "Texas closes ITA All-Americans with singles and doubles semifinal runs", "kind": "Result", "source": "TexasLonghorns.com", "summary": "The Longhorns' doubles team of Herea and Nijkamp fell to UNC's Maltby and Zampardo in the semifinals.", "teams": ["Texas"], "url": "https://texaslonghorns.com/news/2026/9/26/womens-tennis-womens-tennis-closes-ita-all-americans-with-semifinals-appearances"}];
+  state.meta = {updatedAt: "2026-09-28T14:15:00-04:00", note: "Snapshot copy"};
+  render();
 })();
 </script>
+
+</body>
+</html>
