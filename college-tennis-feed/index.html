@@ -1,4 +1,4 @@
-<title>ACC Tennis Wire</title>
+<title>College Tennis Wire</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -105,8 +105,8 @@
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">College tennis · ACC first</div>
-    <h1>ACC Tennis Wire<span class="dot" aria-hidden="true"></span></h1>
+    <div class="eyebrow">NCAA Division I · ACC on top</div>
+    <h1>College Tennis Wire<span class="dot" aria-hidden="true"></span></h1>
     <div class="stamp" id="stamp">Loading the latest stories…</div>
   </header>
 
@@ -119,12 +119,12 @@
   </div>
 
   <section aria-labelledby="h-acc">
-    <h2 id="h-acc">ACC <span class="count" id="c-acc"></span></h2>
+    <h2 id="h-acc">ACC teams <span class="count" id="c-acc"></span></h2>
     <div id="acc"></div>
   </section>
 
   <section aria-labelledby="h-nat">
-    <h2 id="h-nat">Around college tennis <span class="count" id="c-nat"></span></h2>
+    <h2 id="h-nat">Around the country <span class="count" id="c-nat"></span></h2>
     <div id="nat"></div>
   </section>
 
@@ -174,7 +174,7 @@
         (s.summary ? "<p>" + esc(s.summary) + "</p>" : "") +
         (media ? '<div class="media">' + media + "</div>" : "") +
         '<div class="src">' + esc(s.source || "") + (s.imageCredit && img ? " · Photo: " + esc(s.imageCredit) : "") + "</div></div>";
-      var thumb = img ? '<a class="thumb" href="' + esc(safeUrl(s.url)) + '" target="_blank" rel="noopener" tabindex="-1"><img src="' + esc(img) + '" alt="' + esc(s.imageAlt || s.headline) + '" loading="lazy"></a>' : "";
+      var thumb = img ? '<a class="thumb" href="' + esc(safeUrl(s.url)) + '" target="_blank" rel="noopener" tabindex="-1"><img src="' + esc(img) + '" alt="' + esc(s.imageAlt || s.headline) + '" loading="lazy"' + (/^[a-z% 0-9.]+$/i.test(s.imageFocus || "") ? ' style="object-position:' + s.imageFocus + '"' : "") + '></a>' : "";
       html += '<article class="story' + (img ? " has-img" : "") + '">' + body + thumb + "</article>";
     });
     el.innerHTML = html;
