@@ -128,7 +128,12 @@
     <div id="nat"></div>
   </section>
 
-  <footer>Refreshed each morning from school athletics sites, the ITA and college tennis press. Tap a headline to read the full story at its source; video and photo links open on the source site. Stories older than 30 days drop off.</footer>
+  <section aria-labelledby="h-tn">
+    <h2 id="h-tn">Transfers &amp; NIL <span class="count" id="c-tn"></span></h2>
+    <div id="tn"></div>
+  </section>
+
+  <footer>Refreshed each morning from school athletics sites, the ITA and college tennis press. Tap a headline to read the full story at its source; video and photo links open on the source site. News stories drop off after 30 days; transfer and NIL stories stay for six months.</footer>
 </div>
 
 <script>
@@ -148,6 +153,7 @@
     if (/^\/_blob\//.test(v) || /^https:\/\//i.test(v)) return v;
     return "";
   }
+  function isTopic(s) { return s.kind === "Transfer" || s.kind === "NIL"; }
   function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : "#"; }
 
   function renderList(el, countEl, list) {
@@ -158,6 +164,7 @@
       if (s.date !== lastDay) { html += '<div class="day">' + esc(fmtDay(s.date)) + "</div>"; lastDay = s.date; }
       var tags = "";
       if (s.big) tags += '<span class="tag big">Headline</span>';
+      if (s.acc && isTopic(s)) tags += '<span class="tag team">ACC</span>';
       (s.teams || []).forEach(function (t) { tags += '<span class="tag team">' + esc(t) + "</span>"; });
       if (s.gender === "men") tags += '<span class="tag">Men</span>';
       if (s.gender === "women") tags += '<span class="tag">Women</span>';
@@ -184,8 +191,10 @@
     ["all", "men", "women"].forEach(function (g) { document.getElementById("g-" + g).setAttribute("aria-pressed", String(state.g === g)); });
     var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
     var cut = cutoff.toISOString().slice(0, 10);
+    var cutoffLong = new Date(); cutoffLong.setDate(cutoffLong.getDate() - 180);
+    var cutLong = cutoffLong.toISOString().slice(0, 10);
     var list = state.stories.filter(function (s) {
-      if (s.date && s.date < cut) return false;
+      if (s.date && s.date < (isTopic(s) ? cutLong : cut)) return false;
       if (state.g === "all") return true;
       return s.gender === state.g || s.gender === "both";
     }).sort(function (a, b) {
@@ -193,8 +202,9 @@
       if (!!b.big !== !!a.big) return b.big ? 1 : -1;
       return (a.headline || "").localeCompare(b.headline || "");
     });
-    renderList(document.getElementById("acc"), document.getElementById("c-acc"), list.filter(function (s) { return s.acc; }));
-    renderList(document.getElementById("nat"), document.getElementById("c-nat"), list.filter(function (s) { return !s.acc; }));
+    renderList(document.getElementById("acc"), document.getElementById("c-acc"), list.filter(function (s) { return s.acc && !isTopic(s); }));
+    renderList(document.getElementById("nat"), document.getElementById("c-nat"), list.filter(function (s) { return !s.acc && !isTopic(s); }));
+    renderList(document.getElementById("tn"), document.getElementById("c-tn"), list.filter(isTopic));
     var stamp = document.getElementById("stamp");
     if (state.meta && state.meta.updatedAt) {
       var d = new Date(state.meta.updatedAt);
