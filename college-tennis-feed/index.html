@@ -1,0 +1,196 @@
+<title>ACC Tennis Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground: #F4F6EF;
+    --surface: #FFFFFF;
+    --ink: #15241C;
+    --muted: #5A6B61;
+    --line: #D9E0D4;
+    --court: #1F5A3F;
+    --court-soft: #E3EEE6;
+    --ball: #C9DC2E;
+    --ball-ink: #2B3300;
+    --chip: #EEF1EA;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0F1813;
+      --surface: #16221B;
+      --ink: #E8EEE9;
+      --muted: #98AAA0;
+      --line: #27362E;
+      --court: #7FC8A0;
+      --court-soft: #1C3127;
+      --ball: #D6E85A;
+      --ball-ink: #1E2400;
+      --chip: #1F2C25;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0F1813;
+    --surface: #16221B;
+    --ink: #E8EEE9;
+    --muted: #98AAA0;
+    --line: #27362E;
+    --court: #7FC8A0;
+    --court-soft: #1C3127;
+    --ball: #D6E85A;
+    --ball-ink: #1E2400;
+    --chip: #1F2C25;
+    color-scheme: dark;
+  }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font: 15px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; }
+  header { display: grid; gap: 6px; padding-bottom: 18px; border-bottom: 3px solid var(--court); }
+  .eyebrow { font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--court); }
+  h1 { margin: 0; font: 700 44px/1 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .01em; text-wrap: balance; }
+  h1 .dot { display: inline-block; width: .42em; height: .42em; border-radius: 50%; background: var(--ball); margin-left: .12em; vertical-align: .08em; }
+  .stamp { color: var(--muted); font-size: 13px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 18px 6px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+  .seg button {
+    border: 0; background: transparent; color: var(--muted); padding: 7px 14px; cursor: pointer;
+    font: 500 13px/1 "IBM Plex Sans", system-ui, sans-serif;
+  }
+  .seg button[aria-pressed="true"] { background: var(--court); color: var(--surface); }
+  .seg button:focus-visible { outline: 2px solid var(--ball); outline-offset: -2px; }
+  section { margin-top: 26px; }
+  h2 {
+    display: flex; align-items: baseline; gap: 10px; margin: 0 0 4px;
+    font: 700 24px/1.1 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .03em;
+  }
+  h2 .count { font: 500 13px/1 "IBM Plex Sans", system-ui, sans-serif; color: var(--muted); text-transform: none; letter-spacing: 0; }
+  .day { margin: 18px 0 4px; font: 600 12px/1 "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .story { display: grid; gap: 6px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+  .story:last-child { border-bottom: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font: 600 11px/1 "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; background: var(--chip); color: var(--muted); }
+  .tag.team { background: var(--court-soft); color: var(--court); }
+  .tag.big { background: var(--ball); color: var(--ball-ink); }
+  .story h3 { margin: 0; font: 600 20px/1.2 "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .01em; text-wrap: balance; }
+  .story h3 a { color: var(--ink); text-decoration: none; }
+  .story h3 a:hover, .story h3 a:focus-visible { color: var(--court); text-decoration: underline; text-underline-offset: 3px; }
+  .story p { margin: 0; max-width: 65ch; }
+  .src { font-size: 12.5px; color: var(--muted); }
+  .empty { padding: 20px 0; color: var(--muted); }
+  footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+  @media (max-width: 480px) { h1 { font-size: 36px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">College tennis · ACC first</div>
+    <h1>ACC Tennis Wire<span class="dot" aria-hidden="true"></span></h1>
+    <div class="stamp" id="stamp">Loading the latest stories…</div>
+  </header>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Men or women">
+      <button type="button" id="g-all" data-g="all" aria-pressed="true">All</button>
+      <button type="button" id="g-men" data-g="men" aria-pressed="false">Men</button>
+      <button type="button" id="g-women" data-g="women" aria-pressed="false">Women</button>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-acc">
+    <h2 id="h-acc">ACC <span class="count" id="c-acc"></span></h2>
+    <div id="acc"></div>
+  </section>
+
+  <section aria-labelledby="h-nat">
+    <h2 id="h-nat">Around college tennis <span class="count" id="c-nat"></span></h2>
+    <div id="nat"></div>
+  </section>
+
+  <footer>Refreshed each morning from school athletics sites, the ITA and college tennis press. Tap a headline to read the full story at its source. Stories older than 30 days drop off.</footer>
+</div>
+
+<script>
+(function () {
+  var state = { stories: [], meta: null, g: "all" };
+  try { var saved = localStorage.getItem("tw-g"); if (saved) state.g = saved; } catch (e) {}
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function fmtDay(iso) {
+    var d = new Date(iso + "T12:00:00");
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : "#"; }
+
+  function renderList(el, countEl, list) {
+    countEl.textContent = list.length ? list.length + (list.length === 1 ? " story" : " stories") : "";
+    if (!list.length) { el.innerHTML = '<div class="empty">Nothing new here yet.</div>'; return; }
+    var html = "", lastDay = null;
+    list.forEach(function (s) {
+      if (s.date !== lastDay) { html += '<div class="day">' + esc(fmtDay(s.date)) + "</div>"; lastDay = s.date; }
+      var tags = "";
+      if (s.big) tags += '<span class="tag big">Headline</span>';
+      (s.teams || []).forEach(function (t) { tags += '<span class="tag team">' + esc(t) + "</span>"; });
+      if (s.gender === "men") tags += '<span class="tag">Men</span>';
+      if (s.gender === "women") tags += '<span class="tag">Women</span>';
+      if (s.kind) tags += '<span class="tag">' + esc(s.kind) + "</span>";
+      html += '<article class="story"><div class="tags">' + tags + "</div>" +
+        '<h3><a href="' + esc(safeUrl(s.url)) + '" target="_blank" rel="noopener">' + esc(s.headline) + "</a></h3>" +
+        (s.summary ? "<p>" + esc(s.summary) + "</p>" : "") +
+        '<div class="src">' + esc(s.source || "") + "</div></article>";
+    });
+    el.innerHTML = html;
+  }
+
+  function render() {
+    ["all", "men", "women"].forEach(function (g) { document.getElementById("g-" + g).setAttribute("aria-pressed", String(state.g === g)); });
+    var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+    var cut = cutoff.toISOString().slice(0, 10);
+    var list = state.stories.filter(function (s) {
+      if (s.date && s.date < cut) return false;
+      if (state.g === "all") return true;
+      return s.gender === state.g || s.gender === "both";
+    }).sort(function (a, b) {
+      if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+      if (!!b.big !== !!a.big) return b.big ? 1 : -1;
+      return (a.headline || "").localeCompare(b.headline || "");
+    });
+    renderList(document.getElementById("acc"), document.getElementById("c-acc"), list.filter(function (s) { return s.acc; }));
+    renderList(document.getElementById("nat"), document.getElementById("c-nat"), list.filter(function (s) { return !s.acc; }));
+    var stamp = document.getElementById("stamp");
+    if (state.meta && state.meta.updatedAt) {
+      var d = new Date(state.meta.updatedAt);
+      stamp.textContent = "Last refreshed " + d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }) + " ET" + (state.meta.note ? " · " + state.meta.note : "");
+    } else if (state.stories.length) {
+      stamp.textContent = "Latest college tennis news, ACC first.";
+    }
+  }
+
+  document.querySelectorAll(".seg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.g = b.getAttribute("data-g");
+      try { localStorage.setItem("tw-g", state.g); } catch (e) {}
+      render();
+    });
+  });
+
+  render();
+
+  window.claude && window.claude.use && window.claude.use("db").then(function (db) {
+    if (!db) { document.getElementById("stamp").textContent = "The news feed could not load in this view. Try opening the page in claude.ai."; return; }
+    db.collection("stories").orderBy("date", "desc").limit(300).onSnapshot(function (snap) {
+      state.stories = snap.docs.map(function (d) { return d.data(); });
+      render();
+    }, function () { document.getElementById("stamp").textContent = "The news feed stopped updating. Reload the page to reconnect."; });
+    db.doc("meta/status").onSnapshot(function (snap) {
+      state.meta = snap.exists ? snap.data() : null;
+      render();
+    }, function () {});
+  });
+})();
+</script>
